@@ -1,0 +1,41 @@
+.box {
+    margin: 0 auto;
+    width: 80vw;
+    padding: 10px 30px 25px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+table {
+    width: 100%;
+    height: 720px;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid black;
+    padding: 1px;
+    text-align: center;
+}
+th {
+    background-color: #f2f2f2;
+}
+td {
+    height: 15.5%;
+}
+tr:hover {
+    background-color: rgb(209, 244, 255);
+}
+.day {
+    background-color: #e2e2e2;
+    width: 15%;
+    height: 6%;
+}
+.time {
+    background-color: #d2d2d2;
+    width: 5%;
+    height: 6%;
+}
+.schedule-item {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    word-break: break-all;
+}

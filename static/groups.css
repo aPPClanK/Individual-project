@@ -1,0 +1,75 @@
+.box {
+    margin: 0 auto;
+    width: 75%;
+    padding: 10px 30px 25px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+tr, td, th {
+    border: 1px solid black;
+}
+tr:hover {
+    background-color: rgb(209, 244, 255);
+}
+td {
+    padding-left: 50px;
+}
+td:last-of-type {
+    padding-left: 0;
+    text-align: center;
+}
+th {
+    background-color: rgb(235, 235, 235);
+}
+.name {
+    width: 40%;
+}
+.course {
+    width: 20%;
+}
+.number {
+    width: 20%;
+}
+.action {
+    width: 20%;
+}
+h1 {
+    text-align: center;
+}
+button {
+    margin: 0 auto;
+    display: inherit;
+    height: 25px;
+    cursor: pointer;
+}
+.students td {
+    padding: 1px 0;
+    text-align: center;
+}
+.s_name {
+    width: 10%;
+}
+.s_fam {
+    width: 10%;
+}
+.s_date {
+    width: 10%;
+}
+.s_gender {
+    width: 5%;
+}
+.s_address {
+    width: 35%;
+}
+.s_tel {
+    width: 10%;
+}
+.s_email {
+    width: 15%;
+}
+.s_group {
+    width: 5%;
+}

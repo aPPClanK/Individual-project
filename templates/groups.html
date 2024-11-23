@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Группы</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='groups.css') }}">
+</head>
+<body>
+    <a href="/">home</a>
+    <div class="box">
+        <h1>Список групп</h1>
+        <table>
+            <tr>
+                <th class="name">Название группы</th>
+                <th class="course">Курс</th>
+                <th class="number">Количество студентов</th>
+                <th class="action">Действия</th>
+            </tr>
+            {% for group in groups %}
+            <tr>
+                <td>{{ group[1] }}</td>
+                <td>{{ group[2] }}</td>
+                <td>{{ group[3] }}</td>
+                <td>
+                    <button onclick="window.location.href='/groups?group_id={{ group[0] }}'" style="display: block;">Показать студентов</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="box">
+        <h1>
+            Список студентов
+        </h1>
+        <table class="students">
+            <tr>
+                <th class="s_name">Имя</th>
+                <th class="s_fam">Фамилия</th>
+                <th class="s_date">Дата рождения</th>
+                <th class="s_gender">Пол</th>
+                <th class="s_address">Адрес</th>
+                <th class="s_tel">Телефон</th>
+                <th class="s_email">Email</th>
+                <th class="s_group">Группа</th>
+            </tr>
+            {% for student in students %}
+            <tr>
+                <td>{{ student[1] }}</td>
+                <td>{{ student[2] }}</td>
+                <td>{{ student[3] }}</td>
+                <td>{{ student[4] }}</td>
+                <td>{{ student[5] }}</td>
+                <td>{{ student[6] }}</td>
+                <td>{{ student[7] }}</td>
+                <td>{{ student[8] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <button onclick="window.location.href='/groups'" {% if show_all_students %}style="display: none;"{% endif %}>Показать всех студентов</button>
+    </div>
+</body>
+</html>

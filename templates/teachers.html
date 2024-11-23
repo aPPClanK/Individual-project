@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Преподаватели</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='teachers.css') }}">
+    <script>
+        function loadSchedule(teacherId) {
+            // Сохраняем текущую позицию прокрутки
+            var scrollPosition = window.scrollY;
+            sessionStorage.setItem('scrollPosition', scrollPosition);
+
+            // Перенаправляем на новую страницу с параметром teacher_id
+            window.location.href = `/teachers?teacher_id=${teacherId}`;
+        }
+
+        // Восстанавливаем позицию прокрутки после загрузки страницы
+        window.onload = function() {
+            var scrollPosition = sessionStorage.getItem('scrollPosition');
+            if (scrollPosition) {
+                window.scrollTo(0, scrollPosition);
+                sessionStorage.removeItem('scrollPosition');
+            }
+        };
+    </script>
+</head>
+<body>
+    <a href="/">home</a>
+    <div class="container">
+        <div class="left-panel">
+            <h1 style="text-align:center">Список преподавателей</h1>
+            {% for teacher in teachers %}
+            <div class="teacher-block">
+                <h2>{{ teacher[1] }} {{ teacher[2] }}</h2>
+                <p>Дата рождения: {{ teacher[3] }}</p>
+                <p>Пол: {{ teacher[4] }}</p>
+                <p>Адрес: {{ teacher[5] }}</p>
+                <p>Телефон: {{ teacher[6] }}</p>
+                <p>Email: {{ teacher[7] }}</p>
+                <h3>Предметы:</h3>
+                <ul>
+                    {% for subject in subjects %}
+                        {% if subject[0] == teacher[0] %}
+                            <li>{{ subject[1] }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <h3>Группы:</h3>
+                <ul>
+                    {% for group in groups %}
+                        {% if group[0] == teacher[0] %}
+                            <li>{{ group[1] }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <button onclick="loadSchedule({{ teacher[0] }})">Показать расписание</button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="right-panel schedule-container">
+            <h1>Расписание занятий</h1>
+            <table>
+                <tr>
+                    <th class="time">Время</th>
+                    <th class="day">Понедельник</th>
+                    <th class="day">Вторник</th>
+                    <th class="day">Среда</th>
+                    <th class="day">Четверг</th>
+                    <th class="day">Пятница</th>
+                    <th class="day">Суббота</th>
+                </tr>
+                {% set times = [
+                    ('08:30', '09:50'),
+                    ('10:00', '11:20'),
+                    ('11:30', '12:50'),
+                    ('13:30', '14:50'),
+                    ('15:00', '16:20'),
+                    ('16:30', '17:50')
+                ] %}
+                {% for start_time, end_time in times %}
+                <tr>
+                    <td class="time">{{ start_time }} - {{ end_time }}</td>
+                    {% for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] %}
+                        <td>
+                            {% for item in schedule %}
+                                {% if item[2] == day and item[3].strftime('%H:%M') == start_time %}
+                                    <div class="schedule-item" style="background-color: lightblue;">
+                                        {{ item[0] }}<br>
+                                        {{ item[1] }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+</html>
