@@ -1,8 +1,14 @@
+body {
+    background-image: url(5.jpg);
+    font-family: Arial, Helvetica, sans-serif;
+}
 .box {
     margin: 0 auto;
     width: 80vw;
     padding: 10px 30px 25px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: white;
+    border-radius: 5px;
 }
 table {
     width: 100%;

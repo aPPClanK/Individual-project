@@ -1,33 +1,40 @@
+body {
+    background-image: url(5.jpg);
+    font-family: Arial, Helvetica, sans-serif;
+}
 .container {
     display: flex;
 }
 .left-panel {
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     padding: 20px;
-    width: 100%;
-}
-.left-panel h1 {
-    width: 35.5%;
+    margin: 10px;
+    width: 21%;
+    border-radius: 5px;
 }
 .right-panel {
-    flex: 1;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     padding: 30px;
+    border-radius: 5px;
 }
 .teacher-block {
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 5px;
-    width: 34%;
 }
 .schedule-container {
-    padding: 20px 0px;
+    margin: 10px;
+    padding: 20px;
     position: fixed;
     right: 2%;
-    width: 60%
+    width: 70%
 }
 table {
     width: 100%;
-    height: 75vh;
+    height: 78vh;
     border-collapse: collapse;
 }
 .teachers {
@@ -52,13 +59,11 @@ tr:hover {
     background-color: #e2e2e2;
     width: 14%;
     height: 6%;
-    font-size: small;
 }
 .time {
     background-color: #d2d2d2;
     width: 8.5%;
     height: 6%;
-    font-size: small;
 }
 .schedule-item {
     margin: 5px;
@@ -69,5 +74,6 @@ tr:hover {
     word-break:break-all;
 }
 h1 {
+    padding-top: 0;
     text-align: center;
 }

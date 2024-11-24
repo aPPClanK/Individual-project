@@ -22,13 +22,14 @@
                 <td>{{ group[1] }}</td>
                 <td>{{ group[2] }}</td>
                 <td>{{ group[3] }}</td>
-                <td>
+                <td class="show">
                     <button onclick="window.location.href='/groups?group_id={{ group[0] }}'" style="display: block;">Показать студентов</button>
                 </td>
             </tr>
             {% endfor %}
         </table>
     </div>
+    <br>
     <div class="box">
         <h1>
             Список студентов

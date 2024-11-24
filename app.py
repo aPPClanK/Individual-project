@@ -117,7 +117,7 @@ def teachers():
 
     # Получение предметов, которые преподают преподаватели
     cur.execute('''
-        SELECT t.teacher_id, s.subject_name
+        SELECT DISTINCT t.teacher_id, s.subject_name
         FROM Teachers t
         INNER JOIN Schedule sch ON t.teacher_id = sch.teacher_id
         INNER JOIN Subjects s ON sch.subject_id = s.subject_id;
@@ -126,7 +126,7 @@ def teachers():
 
     # Получение групп, которые ведут преподаватели
     cur.execute('''
-        SELECT t.teacher_id, g.group_name
+        SELECT DISTINCT t.teacher_id, g.group_name
         FROM Teachers t
         INNER JOIN Schedule sch ON t.teacher_id = sch.teacher_id
         INNER JOIN Groups g ON sch.group_id = g.group_id;
@@ -144,14 +144,7 @@ def teachers():
             WHERE t.teacher_id = %s;
         ''', (teacher_id,))
     else:
-        cur.execute('''
-            SELECT g.group_name, s.subject_name, sch.day_of_week, sch.start_time, sch.end_time
-            FROM Teachers t
-            INNER JOIN Schedule sch ON t.teacher_id = sch.teacher_id
-            INNER JOIN Groups g ON sch.group_id = g.group_id
-            INNER JOIN Subjects s ON sch.subject_id = s.subject_id
-            WHERE t.teacher_id = %s;
-        ''', (teachers[0][0],))  # По умолчанию показываем расписание первого преподавателя
+        schedule = []
 
     schedule = cur.fetchall()
 
