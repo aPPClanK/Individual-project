@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Группы</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='groups.css') }}">
 </head>
 <body>
-    <a href="/">home</a>
+    <div class="dropdown">
+        <button class="dropdownbutton"><i class="fa fa-list-ul" aria-hidden="true"></i></button>
+        <div class="dropdown-menu">
+            <a href="/">На главную</a>
+            <a href="schedule">Расписание</a>
+            <a href="teachers">Преподаватели</a>
+        </div>
+    </div>
     <div class="box">
         <h1>Список групп</h1>
         <table>
@@ -23,7 +31,7 @@
                 <td>{{ group[2] }}</td>
                 <td>{{ group[3] }}</td>
                 <td class="show">
-                    <button onclick="window.location.href='/groups?group_id={{ group[0] }}'" style="display: block;">Показать студентов</button>
+                    <button class="actions" onclick="window.location.href='/groups?group_id={{ group[0] }}'" style="display: block;">Показать студентов</button>
                 </td>
             </tr>
             {% endfor %}
@@ -59,7 +67,7 @@
             {% endfor %}
         </table>
         <br>
-        <button onclick="window.location.href='/groups'" {% if show_all_students %}style="display: none;"{% endif %}>Показать всех студентов</button>
+        <button class="actions" onclick="window.location.href='/groups'" {% if show_all_students %}style="display: none;"{% endif %}>Показать всех студентов</button>
     </div>
 </body>
 </html>

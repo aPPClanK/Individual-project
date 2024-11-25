@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Расписание</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='schedule.css') }}">
 </head>
 <body>
-    <a href="/">home</a>
+    <div class="dropdown">
+        <button class="dropdownbutton"><i class="fa fa-list-ul" aria-hidden="true"></i></button>
+        <div class="dropdown-menu">
+            <a href="/">На главную</a>
+            <a href="groups">Группы</a>
+            <a href="teachers">Преподаватели</a>
+        </div>
+    </div>
     <div class="box">
         <h1 style="text-align:center">Расписание</h1>
         <form method="GET" action="/schedule">
@@ -19,7 +27,7 @@
                 {% endfor %}
             </select>
         </form>
-        <hr>
+        <br>
         <table>
             <tr>
                 <th class="time">Время</th>

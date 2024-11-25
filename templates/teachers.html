@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Преподаватели</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='teachers.css') }}">
     <script>
         function loadSchedule(teacherId) {
@@ -26,7 +27,14 @@
     </script>
 </head>
 <body>
-    <a href="/">home</a>
+    <div class="dropdown">
+        <button class="dropdownbutton"><i class="fa fa-list-ul" aria-hidden="true"></i></button>
+        <div class="dropdown-menu">
+            <a href="/">На главную</a>
+            <a href="schedule">Расписание</a>
+            <a href="groups">Группы</a>
+        </div>
+    </div>
     <div class="container">
         <div class="left-panel">
             <h1 style="text-align:center">Список преподавателей</h1>
@@ -54,7 +62,7 @@
                         {% endif %}
                     {% endfor %}
                 </ul>
-                <button onclick="loadSchedule({{ teacher[0] }})">Показать расписание</button>
+                <button class="actions" onclick="loadSchedule({{ teacher[0] }})">Показать расписание</button>
             </div>
             {% endfor %}
         </div>

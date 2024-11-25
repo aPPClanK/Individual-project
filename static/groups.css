@@ -5,7 +5,7 @@ body {
 .box {
     background-color: white;
     margin: 0 auto;
-    width: 75%;
+    width: 80vw;
     padding: 10px 30px 25px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
@@ -18,7 +18,7 @@ tr, td, th {
     border: 1px solid black;
 }
 tr:hover {
-    background-color: rgb(209, 244, 255);
+    background-color: rgb(155,222,215);
 }
 td {
     padding-left: 50px;
@@ -45,39 +45,67 @@ th {
 h1 {
     text-align: center;
 }
-button {
+.actions {
     margin: 0 auto;
     display: inherit;
     height: 25px;
     cursor: pointer;
-    background-color: rgb(209, 244, 255);
+    background-color: rgb(155,222,215);
     border-radius: 5px;
+}
+.actions:hover {
+    border-width: 3px;
+    font-weight: bold;
 }
 .students td {
     padding: 1px 0;
     text-align: center;
 }
-.s_name {
+.s_name, .s_fam, .s_date, .s_tel {
     width: 10%;
 }
-.s_fam {
-    width: 10%;
-}
-.s_date {
-    width: 10%;
-}
-.s_gender {
+.s_gender, .s_group {
     width: 5%;
 }
 .s_address {
     width: 35%;
 }
-.s_tel {
-    width: 10%;
-}
 .s_email {
     width: 15%;
 }
-.s_group {
-    width: 5%;
+.dropdownbutton {
+    border: 2px solid black;
+    background-color: rgb(176, 236, 230);
+    padding: 13px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    z-index: 1;
+}
+.dropdown {
+    position: fixed;
+    border: 2px solid black;
+    border-radius: 4px;
+    display: inline-block;
+}
+.dropdown-menu {
+    display: none;
+    background-color: rgb(229, 255, 252);
+}
+.dropdown-menu a {
+    color: black;
+    padding: 11px 15px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-menu a:hover {
+    background-color: rgb(211, 247, 243);
+}
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+.dropdown:hover .dropdownbutton {
+    text-align: left;
+    background-color: rgb(194, 241, 237);
+    min-width: 150px;
 }
