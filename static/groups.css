@@ -16,6 +16,7 @@ table {
 }
 tr, td, th {
     border: 1px solid black;
+    transition: 0.25s;
 }
 tr:hover {
     background-color: rgb(155,222,215);
@@ -52,6 +53,7 @@ h1 {
     cursor: pointer;
     background-color: rgb(155,222,215);
     border-radius: 5px;
+    transition: 0.1s;
 }
 .actions:hover {
     border-width: 3px;
@@ -97,6 +99,7 @@ h1 {
     padding: 11px 15px;
     text-decoration: none;
     display: block;
+    transition: 0.25s;
 }
 .dropdown-menu a:hover {
     background-color: rgb(211, 247, 243);

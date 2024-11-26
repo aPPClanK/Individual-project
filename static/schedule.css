@@ -26,6 +26,9 @@ th {
 td {
     height: 15.5%;
 }
+tr {
+    transition: 0.25s;
+}
 tr:hover {
     background-color: rgb(155,222,215);
 }
