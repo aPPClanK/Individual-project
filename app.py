@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, render_template, request
 from dotenv import load_dotenv
 import os
 import psycopg2
@@ -34,7 +34,7 @@ def groups():
 
     if group_id:
         cur.execute('''
-        SELECT s.student_id, s.first_name, s.last_name, s.date_of_birth, s.gender, s.address, s.phone, s.email, g.group_name
+        SELECT s.student_id, s.first_name, s.last_name, s.date_of_birth, s.gender, s.address, s.phone, s.email
         FROM Students s
         INNER JOIN Groups g ON s.group_id = g.group_id
         WHERE s.group_id = %s;
@@ -63,7 +63,27 @@ def groups():
     cur.close()
     conn.close()
     
-    return render_template('groups.html', groups=groups, students=students, show_all_students=show_all_students)
+    return render_template('groups.html', groups=groups, students=students, show_all_students=show_all_students, selected_group_id=group_id)
+
+@app.route('/get_attendance')
+def get_attendance():
+    student_id = request.args.get('student_id')
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Получение данных о посещаемости для студента
+    cur.execute('''
+        SELECT TO_CHAR(a.date, 'YYYY-MM-DD') AS date, s.subject_name, a.status
+        FROM Attendance a
+        INNER JOIN Subjects s ON a.subject_id = s.subject_id
+        WHERE a.student_id = %s;
+    ''', (student_id,))
+    attendance = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return jsonify(attendance)
 
 @app.route('/schedule')
 def schedule():
