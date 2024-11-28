@@ -47,7 +47,7 @@ h1 {
     text-align: center;
 }
 .actions {
-    margin: 0 auto;
+    margin: 3px auto;
     display: inherit;
     height: 25px;
     cursor: pointer;
@@ -66,11 +66,14 @@ h1 {
 .s_name, .s_fam, .s_date, .s_tel {
     width: 10%;
 }
-.s_gender, .s_group {
-    width: 7.5%;
+.s_gender {
+    width: 6%;
 }
+.s_group {
+    width: 17%;
+} 
 .s_address {
-    width: 30%;
+    width: 27.5%;
 }
 .s_email {
     width: 15%;

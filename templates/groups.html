@@ -37,6 +37,35 @@
         function closeAttendance() {
             document.getElementById('overlay').style.display = 'none';
         }
+        // Функция для открытия окна добавления группы
+        function openAddGroup() {
+            document.getElementById('addGroupOverlay').style.display = 'block';
+        }
+        // Функция для закрытия окна добавления группы
+        function closeAddGroup() {
+            document.getElementById('addGroupOverlay').style.display = 'none';
+        }
+        // Функция для открытия окна добавления студента
+        function openAddStudent() {
+            document.getElementById('addStudentOverlay').style.display = 'block';
+        }
+        // Функция для закрытия окна добавления студента
+        function closeAddStudent() {
+            document.getElementById('addStudentOverlay').style.display = 'none';
+        }
+        // Функция для подтверждения удаления
+        function confirmDelete(url) {
+            if (confirm("Вы уверены, что хотите удалить это?")) {
+                fetch(url, { method: 'POST' })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        } else {
+                            alert("Ошибка при удалении.");
+                        }
+                    });
+            }
+        }
     </script>
 </head>
 <body>
@@ -64,15 +93,21 @@
                 <td>{{ group[3] }}</td>
                 <td class="show">
                     <button class="actions" onclick="window.location.href='/groups?group_id={{ group[0] }}'" style="display: block;">Показать студентов</button>
+                    <button class="actions" onclick="confirmDelete('{{ url_for('delete_group', group_id=group[0]) }}')">Удалить группу</button>
                 </td>
             </tr>
             {% endfor %}
         </table>
+        <br>
+        <button class="actions" onclick="openAddGroup()">Добавить группу</button>
     </div>
     <br>
     <div class="box">
         <h1>
             Список студентов
+            {% if not show_all_students %}
+                <button class="actions" onclick="window.location.href='/groups'">Показать всех студентов</button>
+            {% endif %}
         </h1>
         <table class="students">
             <tr>
@@ -101,13 +136,18 @@
                 {% if show_all_students %}
                     <td>{{ student[8] }}</td>
                 {% else %}
-                    <td><button class="actions" onclick="openAttendance({{ student[0] }})">Посещаемость</button></td>
+                    <td>
+                        <button class="actions" onclick="openAttendance({{ student[0] }})">Посещаемость</button>
+                        <button class="actions" onclick="confirmDelete('{{ url_for('delete_student', student_id=student[0]) }}')">Удалить студента</button>
+                    </td>
                 {% endif %}
             </tr>
             {% endfor %}
         </table>
         <br>
-        <button class="actions" onclick="window.location.href='/groups'" {% if show_all_students %}style="display: none;"{% endif %}>Показать всех студентов</button>
+        {% if not show_all_students %}
+            <button class="actions" onclick="openAddStudent()">Добавить студента</button>
+        {% endif %}
     </div>
     <div class="overlay" id="overlay" onclick="closeAttendance()">
         <div class="modal" onclick="event.stopPropagation()">
@@ -120,6 +160,49 @@
                 </tr>
             </table>
             <button class="actions" onclick="closeAttendance()">Закрыть</button>
+        </div>
+    </div>
+    <div class="overlay" id="addGroupOverlay" onclick="closeAddGroup()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <h2>Добавить группу</h2>
+            <form action="{{ url_for('add_group') }}" method="POST">
+                <label for="group_name">Название группы:</label>
+                <input type="text" id="group_name" name="group_name" required>
+                <label for="course_id">Курс:</label>
+                <select id="course_id" name="course_id" required>
+                    <option value="1">Курс 1</option>
+                    <option value="2">Курс 2</option>
+                </select>
+                <button type="submit">Добавить</button>
+                <button type="button" onclick="closeAddGroup()">Закрыть</button>
+            </form>
+        </div>
+    </div>
+    <div class="overlay" id="addStudentOverlay" onclick="closeAddStudent()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <h2>Добавить студента</h2>
+            <form action="{{ url_for('add_student') }}" method="POST">
+                <input type="hidden" name="group_id" value="{{ selected_group_id }}">
+                <label for="first_name">Имя:</label>
+                <input type="text" id="first_name" name="first_name" required>
+                <label for="last_name">Фамилия:</label>
+                <input type="text" id="last_name" name="last_name" required>
+                <label for="date_of_birth">Дата рождения:</label>
+                <input type="date" id="date_of_birth" name="date_of_birth" required>
+                <label for="gender">Пол:</label>
+                <select id="gender" name="gender" required>
+                    <option value="Male">Мужской</option>
+                    <option value="Female">Женский</option>
+                </select>
+                <label for="address">Адрес:</label>
+                <input type="text" id="address" name="address" required>
+                <label for="phone">Телефон:</label>
+                <input type="text" id="phone" name="phone" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <button type="submit">Добавить</button>
+                <button type="button" onclick="closeAddStudent()">Закрыть</button>
+            </form>
         </div>
     </div>
 </body>
