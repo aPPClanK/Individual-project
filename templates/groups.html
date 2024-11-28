@@ -5,73 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Группы</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='groups.css') }}">
-    <script>
-        // Функция для открытия окна
-        function openAttendance(studentId) {
-            document.getElementById('overlay').style.display = 'block';
-            fetch(`/get_attendance?student_id=${studentId}`)
-                .then(response => response.json())
-                .then(data => {
-                    let attendanceTable = document.getElementById('attendance-table');
-                    attendanceTable.innerHTML = `
-                        <tr>
-                            <th>Дата</th>
-                            <th>Предмет</th>
-                            <th>Статус</th>
-                        </tr>
-                    `;
-                    data.forEach(item => {
-                        let row = `
-                            <tr>
-                                <td>${item[0]}</td>
-                                <td>${item[1]}</td>
-                                <td>${item[2]}</td>
-                            </tr>
-                        `;
-                        attendanceTable.innerHTML += row;
-                    });
-                });
-        }
-        // Функция для закрытия окна
-        function closeAttendance() {
-            document.getElementById('overlay').style.display = 'none';
-        }
-        // Функция для открытия окна добавления группы
-        function openAddGroup() {
-            document.getElementById('addGroupOverlay').style.display = 'block';
-        }
-        // Функция для закрытия окна добавления группы
-        function closeAddGroup() {
-            document.getElementById('addGroupOverlay').style.display = 'none';
-        }
-        // Функция для открытия окна добавления студента
-        function openAddStudent() {
-            document.getElementById('addStudentOverlay').style.display = 'block';
-        }
-        // Функция для закрытия окна добавления студента
-        function closeAddStudent() {
-            document.getElementById('addStudentOverlay').style.display = 'none';
-        }
-        // Функция для подтверждения удаления
-        function confirmDelete(url) {
-            if (confirm("Вы уверены, что хотите удалить это?")) {
-                fetch(url, { method: 'POST' })
-                    .then(response => {
-                        if (response.ok) {
-                            window.location.reload();
-                        } else {
-                            alert("Ошибка при удалении.");
-                        }
-                    });
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='groups.css') }}">
+    <script src="{{ url_for('static', filename='groups.js') }}"></script>
 </head>
 <body>
     <div class="dropdown">
-        <button class="dropdownbutton"><i class="fa fa-list-ul" aria-hidden="true"></i></button>
-        <div class="dropdown-menu">
+        <button><i class="fa fa-list-ul" aria-hidden="true"></i></button>
+        <div class="dropdown-content">
             <a href="/">На главную</a>
             <a href="schedule">Расписание</a>
             <a href="teachers">Преподаватели</a>
@@ -93,6 +33,7 @@
                 <td>{{ group[3] }}</td>
                 <td class="show">
                     <button class="actions" onclick="window.location.href='/groups?group_id={{ group[0] }}'" style="display: block;">Показать студентов</button>
+                    <button class="actions" onclick="openEditGroup({{ group[0] }}, '{{ group[1] }}')">Изменить</button>
                     <button class="actions" onclick="confirmDelete('{{ url_for('delete_group', group_id=group[0]) }}')">Удалить группу</button>
                 </td>
             </tr>
@@ -138,6 +79,7 @@
                 {% else %}
                     <td>
                         <button class="actions" onclick="openAttendance({{ student[0] }})">Посещаемость</button>
+                        <button class="actions" onclick="openEditStudent({{ student[0] }}, '{{ student[1] }}', '{{ student[2] }}', '{{ student[3] }}', '{{ student[4] }}', '{{ student[5] }}', '{{ student[6] }}', '{{ student[7] }}', {{ student[9] }})">Редактировать</button>
                         <button class="actions" onclick="confirmDelete('{{ url_for('delete_student', student_id=student[0]) }}')">Удалить студента</button>
                     </td>
                 {% endif %}
@@ -202,6 +144,51 @@
                 <input type="email" id="email" name="email" required>
                 <button type="submit">Добавить</button>
                 <button type="button" onclick="closeAddStudent()">Закрыть</button>
+            </form>
+        </div>
+    </div>
+    <div class="overlay" id="editStudentOverlay" onclick="closeEditStudent()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <h2>Изменить данные студента</h2>
+            <form action="{{ url_for('edit_student') }}" method="POST">
+                <input type="hidden" id="edit_student_id" name="student_id">
+                <label for="edit_first_name">Имя:</label>
+                <input type="text" id="edit_first_name" name="first_name" required>
+                <label for="edit_last_name">Фамилия:</label>
+                <input type="text" id="edit_last_name" name="last_name" required>
+                <label for="edit_date_of_birth">Дата рождения:</label>
+                <input type="date" id="edit_date_of_birth" name="date_of_birth" required>
+                <label for="edit_gender">Пол:</label>
+                <select id="edit_gender" name="gender" required>
+                    <option value="Male">Мужской</option>
+                    <option value="Female">Женский</option>
+                </select>
+                <label for="edit_address">Адрес:</label>
+                <input type="text" id="edit_address" name="address" required>
+                <label for="edit_phone">Телефон:</label>
+                <input type="text" id="edit_phone" name="phone" required>
+                <label for="edit_email">Email:</label>
+                <input type="email" id="edit_email" name="email" required>
+                <label for="edit_student_group_id">Группа:</label>
+                <select id="edit_student_group_id" name="student_group_id" required>
+                    {% for group in groups %}
+                        <option value="{{ group[0] }}" {% if group[0] == student_group_id %}selected{% endif %}>
+                            {{ group[1] }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Сохранить</button>
+                <button type="button" onclick="closeEditStudent()">Закрыть</button>
+            </form>
+        </div>
+    </div>
+    <div class="overlay" id="editGroupOverlay" onclick="closeEditGroup()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <form action="/edit_group" method="POST">
+                <input type="hidden" id="edit_group_id" name="group_id">
+                <label for="edit_group_name">Новое название группы:</label>
+                <input type="text" id="edit_group_name" name="group_name" required>
+                <button type="submit">Сохранить</button>
             </form>
         </div>
     </div>

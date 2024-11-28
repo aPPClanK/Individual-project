@@ -1,16 +1,16 @@
-from flask import Flask, jsonify, render_template, request, redirect, url_for
+from flask import Flask, flash, jsonify, render_template, request, redirect, url_for
 from dotenv import load_dotenv
-import os
+from os import getenv
 import psycopg2
 
 load_dotenv()
 
 app = Flask(__name__)
 
-DB_HOST = os.getenv('DB_HOST')
-DB_NAME = os.getenv('DB_NAME')
-DB_USER = os.getenv('DB_USER')
-DB_PASSWORD = os.getenv('DB_PASSWORD')
+DB_HOST = getenv('DB_HOST')
+DB_NAME = getenv('DB_NAME')
+DB_USER = getenv('DB_USER')
+DB_PASSWORD = getenv('DB_PASSWORD')
 
 def get_db_connection():
     conn = psycopg2.connect(
@@ -78,7 +78,7 @@ def groups():
     # Получение списка студентов для выбранной группы
     if group_id:
         cur.execute('''
-            SELECT s.student_id, s.first_name, s.last_name, s.date_of_birth, s.gender, s.address, s.phone, s.email, g.group_name
+            SELECT s.student_id, s.first_name, s.last_name, s.date_of_birth, s.gender, s.address, s.phone, s.email, g.group_name,  s.group_id
             FROM Students s
             INNER JOIN Groups g ON s.group_id = g.group_id
             WHERE s.group_id = %s
@@ -86,7 +86,7 @@ def groups():
         ''', (group_id,))
         show_all_students = False
     else:
-        cur.execute('''SELECT s.student_id, s.first_name, s.last_name, s.date_of_birth, s.gender, s.address, s.phone, s.email, g.group_name
+        cur.execute('''SELECT s.student_id, s.first_name, s.last_name, s.date_of_birth, s.gender, s.address, s.phone, s.email, g.group_name,
             FROM Students s
             INNER JOIN Groups g ON s.group_id = g.group_id
             ORDER BY g.group_name, s.first_name;
@@ -178,6 +178,49 @@ def delete_student(student_id):
     finally:
         cur.close()
         conn.close()
+    return redirect(url_for('groups'))
+@app.route('/edit_student', methods=['POST'])
+def edit_student():
+    student_id = request.form['student_id']
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    date_of_birth = request.form['date_of_birth']
+    gender = request.form['gender']
+    address = request.form['address']
+    phone = request.form['phone']
+    email = request.form['email']
+    group_id = request.form['student_group_id']
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('''
+        UPDATE Students
+        SET first_name = %s, last_name = %s, date_of_birth = %s, gender = %s, address = %s, phone = %s, email = %s, group_id = %s
+        WHERE student_id = %s;
+    ''', (first_name, last_name, date_of_birth, gender, address, phone, email, group_id, student_id))
+    conn.commit()
+    cur.close()
+    conn.close()
+    return redirect(url_for('groups', group_id=group_id))
+
+@app.route('/edit_group', methods=['POST'])
+def edit_group():
+    group_id = request.form.get('group_id')
+    group_name = request.form.get('group_name')
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Обновление group_name по group_id
+    cur.execute('''
+        UPDATE Groups
+        SET group_name = %s
+        WHERE group_id = %s;
+    ''', (group_name, group_id))
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
     return redirect(url_for('groups'))
 
 @app.route('/get_attendance')
