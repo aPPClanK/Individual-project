@@ -11,14 +11,14 @@
         <div class="left-panel">
             <h1>База данных деканата</h1>
             <ul>
-                <li><a href="schedule" data-text="Расписание">Расписание</a></li>
-                <li><a href="groups" data-text="Группы">Группы</a></li>
-                <li><a href="teachers" data-text="Преподаватели">Преподаватели</a></li>
+                <li><a href="{{ url_for('schedule.schedule') }}" data-text="Расписание">Расписание</a></li>
+                <li><a href="{{ url_for('groups.groups') }}" data-text="Группы">Группы</a></li>
+                <li><a href="{{ url_for('teachers.teachers') }}" data-text="Преподаватели">Преподаватели</a></li>
             </ul>
         </div>
         <div class="right-panel">
             <h2>Новости</h2>
-            <form action="{{ url_for('add_news') }}" method="POST" class="add-news-form">
+            <form action="{{ url_for('news.add_news') }}" method="POST" class="add-news-form">
                 <input type="text" name="title" placeholder="Заголовок" required>
                 <textarea style="font-family: Arial, Helvetica, sans-serif" name="content" placeholder="Содержание" required></textarea>
                 <button type="submit">Добавить новость</button>
@@ -29,7 +29,7 @@
                     <h3>{{ news_item[1] }}</h3>
                     <p>{{ news_item[2] }}</p>
                     <p><i>{{ news_item[3] }}</i></p>
-                    <form action="{{ url_for('delete_news', news_id=news_item[0]) }}" method="POST" style="display:inline;">
+                    <form action="{{ url_for('news.delete_news', news_id=news_item[0]) }}" method="POST" style="display:inline;">
                         <button type="submit" class="delete-button">Удалить</button>
                     </form>
                 </div>

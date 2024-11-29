@@ -13,8 +13,8 @@
         <button><i class="fa fa-list-ul" aria-hidden="true"></i></button>
         <div class="dropdown-content">
             <a href="/">На главную</a>
-            <a href="schedule">Расписание</a>
-            <a href="teachers">Преподаватели</a>
+            <a href="/schedule">Расписание</a>
+            <a href="/teachers">Преподаватели</a>
         </div>
     </div>
     <div class="box">
@@ -34,7 +34,7 @@
                 <td class="show">
                     <button class="actions" onclick="window.location.href='/groups?group_id={{ group[0] }}'" style="display: block;">Показать студентов</button>
                     <button class="actions" onclick="openEditGroup({{ group[0] }}, '{{ group[1] }}')">Изменить</button>
-                    <button class="actions" onclick="confirmDelete('{{ url_for('delete_group', group_id=group[0]) }}')">Удалить группу</button>
+                    <button class="actions" onclick="confirmDelete('{{ url_for('groups.delete_group', group_id=group[0]) }}')">Удалить группу</button>
                 </td>
             </tr>
             {% endfor %}
@@ -80,7 +80,7 @@
                     <td>
                         <button class="actions" onclick="openAttendance({{ student[0] }})">Посещаемость</button>
                         <button class="actions" onclick="openEditStudent({{ student[0] }}, '{{ student[1] }}', '{{ student[2] }}', '{{ student[3] }}', '{{ student[4] }}', '{{ student[5] }}', '{{ student[6] }}', '{{ student[7] }}', {{ student[9] }})">Редактировать</button>
-                        <button class="actions" onclick="confirmDelete('{{ url_for('delete_student', student_id=student[0]) }}')">Удалить студента</button>
+                        <button class="actions" onclick="confirmDelete('{{ url_for('groups.delete_student', student_id=student[0]) }}')">Удалить студента</button>
                     </td>
                 {% endif %}
             </tr>
@@ -107,7 +107,7 @@
     <div class="overlay" id="addGroupOverlay" onclick="closeAddGroup()">
         <div class="modal" onclick="event.stopPropagation()">
             <h2>Добавить группу</h2>
-            <form action="{{ url_for('add_group') }}" method="POST">
+            <form action="{{ url_for('groups.add_group') }}" method="POST">
                 <label for="group_name">Название группы:</label>
                 <input type="text" id="group_name" name="group_name" required>
                 <label for="course_id">Курс:</label>
@@ -123,7 +123,7 @@
     <div class="overlay" id="addStudentOverlay" onclick="closeAddStudent()">
         <div class="modal" onclick="event.stopPropagation()">
             <h2>Добавить студента</h2>
-            <form action="{{ url_for('add_student') }}" method="POST">
+            <form action="{{ url_for('groups.add_student') }}" method="POST">
                 <input type="hidden" name="group_id" value="{{ selected_group_id }}">
                 <label for="first_name">Имя:</label>
                 <input type="text" id="first_name" name="first_name" required>
@@ -150,7 +150,7 @@
     <div class="overlay" id="editStudentOverlay" onclick="closeEditStudent()">
         <div class="modal" onclick="event.stopPropagation()">
             <h2>Изменить данные студента</h2>
-            <form action="{{ url_for('edit_student') }}" method="POST">
+            <form action="{{ url_for('groups.edit_student') }}" method="POST">
                 <input type="hidden" id="edit_student_id" name="student_id">
                 <label for="edit_first_name">Имя:</label>
                 <input type="text" id="edit_first_name" name="first_name" required>

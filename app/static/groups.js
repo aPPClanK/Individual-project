@@ -1,7 +1,7 @@
 // Функция для открытия окна
 function openAttendance(studentId) {
     document.getElementById('overlay').style.display = 'block';
-    fetch(`/get_attendance?student_id=${studentId}`)
+    fetch(`/groups/get_attendance?student_id=${studentId}`)
         .then(response => response.json())
         .then(data => {
             let attendanceTable = document.getElementById('attendance-table');
