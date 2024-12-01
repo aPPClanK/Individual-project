@@ -1,29 +1,55 @@
-// Функция для открытия окна
 function openAttendance(studentId) {
     document.getElementById('overlay').style.display = 'block';
     fetch(`/groups/get_attendance?student_id=${studentId}`)
         .then(response => response.json())
         .then(data => {
             let attendanceTable = document.getElementById('attendance-table');
+            
+            // Очищаем таблицу перед добавлением новых данных
             attendanceTable.innerHTML = `
                 <tr>
                     <th>Дата</th>
                     <th>Предмет</th>
                     <th>Статус</th>
+                    <th>Оценка</th>
                 </tr>
             `;
-            data.forEach(item => {
-                let row = `
+
+            if (data.length === 0) {
+                // Если данных нет, показываем сообщение
+                let emptyRow = `
                     <tr>
-                        <td>${item[0]}</td>
-                        <td>${item[1]}</td>
-                        <td>${item[2]}</td>
+                        <td colspan="4" style="text-align:center;">Нет данных о посещаемости</td>
                     </tr>
                 `;
-                attendanceTable.innerHTML += row;
-            });
+                attendanceTable.innerHTML += emptyRow;
+            } else {
+                // Заполняем таблицу данными
+                data.forEach(item => {
+                    let row = `
+                        <tr>
+                            <td>${item[0]}</td>
+                            <td>${item[1]}</td>
+                            <td>${item[2]}</td>
+                            <td>${item[3]}</td>
+                        </tr>
+                    `;
+                    attendanceTable.innerHTML += row;
+                });
+            }
+        })
+        .catch(error => {
+            console.error("Ошибка при получении данных о посещаемости:", error);
+            // Показываем сообщение об ошибке
+            let attendanceTable = document.getElementById('attendance-table');
+            attendanceTable.innerHTML = `
+                <tr>
+                    <td colspan="4" style="text-align:center; color:red;">Ошибка загрузки данных</td>
+                </tr>
+            `;
         });
 }
+
 // Функция для закрытия окна
 function closeAttendance() {
     document.getElementById('overlay').style.display = 'none';

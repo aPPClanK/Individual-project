@@ -6,25 +6,7 @@
     <title>Преподаватели</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='teachers.css') }}">
-    <script>
-        function loadSchedule(teacherId) {
-            // Сохраняем текущую позицию прокрутки
-            var scrollPosition = window.scrollY;
-            sessionStorage.setItem('scrollPosition', scrollPosition);
-
-            // Перенаправляем на новую страницу с параметром teacher_id
-            window.location.href = `/teachers?teacher_id=${teacherId}`;
-        }
-
-        // Восстанавливаем позицию прокрутки после загрузки страницы
-        window.onload = function() {
-            var scrollPosition = sessionStorage.getItem('scrollPosition');
-            if (scrollPosition) {
-                window.scrollTo(0, scrollPosition);
-                sessionStorage.removeItem('scrollPosition');
-            }
-        };
-    </script>
+    <script src="{{ url_for('static', filename='teachers.js') }}"></script>
 </head>
 <body>
     <div class="dropdown">
@@ -62,7 +44,10 @@
                         {% endif %}
                     {% endfor %}
                 </ul>
-                <button class="actions" onclick="loadSchedule({{ teacher[0] }})">Показать расписание</button>
+                <div class="ac">
+                    <button class="actions" onclick="loadSchedule({{ teacher[0] }})">Показать расписание</button>
+                    <button class="actions" onclick="openAddSchedule({{ teacher[0] }})">Добавить расписание</button>
+                </div>
             </div>
             {% endfor %}
         </div>
@@ -93,9 +78,10 @@
                         <td>
                             {% for item in schedule %}
                                 {% if item[2] == day and item[3].strftime('%H:%M') == start_time %}
-                                    <div class="schedule-item" style="background-color: lightblue;">
+                                    <div class="schedule-item" style="background-color: lightblue;" data-schedule-id="{{ item[4] }}" onmouseenter="showDeleteButton(this)" onmouseleave="hideDeleteButton(this)">
                                         {{ item[0] }}<br>
                                         {{ item[1] }}
+                                        <button class="delete-button" onclick="deleteSchedule({{ item[5] }})"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                     </div>
                                 {% endif %}
                             {% endfor %}
@@ -104,6 +90,40 @@
                 </tr>
                 {% endfor %}
             </table>
+        </div>
+    </div>
+    <div class="overlay" id="addScheduleForm" style="display: none;" onclick="closeAddSchedule()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <form action="/teachers/add_schedule" method="POST">
+                <input type="hidden" name="teacher_id" id="form_teacher_id">
+                <label for="subject_id">Предмет:</label>
+                <select name="subject_id" id="subject_id">
+                    {% for subject in all_subjects %}
+                        <option value="{{ subject[0] }}">{{ subject[1] }}</option>
+                    {% endfor %}
+                </select>
+                <label for="group_id">Группа:</label>
+                <select name="group_id" id="group_id">
+                    {% for group in all_groups %}
+                        <option value="{{ group[0] }}">{{ group[1] }}</option>
+                    {% endfor %}
+                </select>
+                <label for="day">День недели:</label>
+                <select name="day" id="day">
+                    <option value="Monday">Понедельник</option>
+                    <option value="Tuesday">Вторник</option>
+                    <option value="Wednesday">Среда</option>
+                    <option value="Thursday">Четверг</option>
+                    <option value="Friday">Пятница</option>
+                    <option value="Saturday">Суббота</option>
+                </select>
+                <label for="time">Время начала:</label>
+                <input type="time" name="time" id="time">
+                <label for="end_time">Время окончания:</label>
+                <input type="time" name="end_time" id="end_time">
+                <button type="submit">Добавить</button>
+                <button type="button" onclick="closeAddSchedule()">Отмена</button>
+            </form>
         </div>
     </div>
 </body>

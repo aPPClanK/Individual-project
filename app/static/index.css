@@ -1,5 +1,6 @@
 body {
     background-image: url(7.jpg);
+    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,7 +14,7 @@ body {
     height: 80%;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
+    border-radius: 20px;
     overflow: hidden;
 }
 .left-panel {
@@ -45,10 +46,12 @@ body {
 }
 .left-panel a:hover {
     background-color: rgb(155, 222, 215);
-    font-weight: bold;
+    transform: scale(1.1);
     box-shadow: inset 2px 1px 8px black;
 }
 .right-panel {
+    background-color: #dddddd;
+    border-left: 2px solid #ccc;
     flex: 1;
     padding: 20px;
     display: flex;
@@ -78,6 +81,7 @@ body {
 }
 .add-news-form button {
     width: 100%;
+    margin: 10px;
     padding: 10px;
     background-color: rgb(155, 222, 215);
     color: black;
@@ -99,11 +103,11 @@ body {
 .news-item {
     min-width: 200px;
     background-color: rgb(247, 247, 247);
-    margin: 10px 0;
+    margin: 10px 10px;
     padding: 15px;
     padding-right: 100px;
     border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     position: relative;
 }
 .news-item h3 {

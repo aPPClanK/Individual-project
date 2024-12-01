@@ -24,7 +24,7 @@ def groups():
     # Получение списка студентов для выбранной группы
     if group_id:
         cur.execute('''
-            SELECT s.student_id, s.first_name, s.last_name, s.date_of_birth, s.gender, s.address, s.phone, s.email, g.group_name
+            SELECT s.student_id, s.first_name, s.last_name, s.date_of_birth, s.gender, s.address, s.phone, s.email, g.group_name, g.group_id
             FROM Students s
             INNER JOIN Groups g ON s.group_id = g.group_id
             WHERE s.group_id = %s
@@ -166,11 +166,12 @@ def get_attendance():
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute('''
-        SELECT TO_CHAR(a.date, 'YYYY-MM-DD') AS date, s.subject_name, a.status
+        SELECT TO_CHAR(a.date, 'YYYY-MM-DD') AS date, s.subject_name, a.status, g.grade
         FROM Attendance a
         INNER JOIN Subjects s ON a.subject_id = s.subject_id
+        LEFT JOIN Grades g ON a.student_id = g.student_id AND a.subject_id = g.subject_id AND a.date = g.date
         WHERE a.student_id = %s;
-    ''', (student_id,))
+    ''', (student_id))
     attendance = cur.fetchall()
     cur.close()
     conn.close()
