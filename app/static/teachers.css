@@ -101,9 +101,10 @@ h1 {
 }
 .ac {
     display: flex;
+    flex-wrap: wrap;
 }
 .actions {
-    margin: 10px auto;
+    margin: 5px auto;
     height: 25px;
     cursor: pointer;
     background-color: rgb(155,222,215);

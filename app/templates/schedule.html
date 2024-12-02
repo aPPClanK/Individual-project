@@ -53,7 +53,8 @@
                     <td>
                         {% for item in schedule %}
                             {% if item[4] == day and item[5].strftime('%H:%M') == start_time %}
-                                <div class="schedule-item" style="background-color: {{ 'lightblue' if item[0] == 1 else 'lightgreen' }};">
+                                {% set color_map = {1: 'lightblue', 2: 'lightgreen', 3: 'lightcoral', 4: 'lightyellow'} %}
+                                <div class="schedule-item" style="background-color: {{ color_map[item[0]] }};">
                                     {{ item[1] }}<br>
                                     {{ item[3] }}
                                 </div>

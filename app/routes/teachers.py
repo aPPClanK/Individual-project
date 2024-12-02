@@ -91,9 +91,6 @@ def add_schedule():
 @teachers_bp.route('/delete_schedule', methods=['POST'])
 def delete_schedule():
     schedule_id = request.args.get('schedule_id')
-    if not schedule_id:
-        return "Не указан ID расписания", 400
-
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute('DELETE FROM Schedule WHERE schedule_id = %s;', (schedule_id,))
@@ -101,4 +98,36 @@ def delete_schedule():
     cur.close()
     conn.close()
 
+    return redirect(url_for('teachers.teachers'))
+
+@teachers_bp.route('/add_teacher', methods=['POST'])
+def add_student():
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    date_of_birth = request.form['date_of_birth']
+    gender = request.form['gender']
+    address = request.form['address']
+    phone = request.form['phone']
+    email = request.form['email']
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('''
+        INSERT INTO Teachers (first_name, last_name, date_of_birth, gender, address, phone, email)
+        VALUES (%s, %s, %s, %s, %s, %s, %s);
+    ''', (first_name, last_name, date_of_birth, gender, address, phone, email))
+    conn.commit()
+    cur.close()
+    conn.close()
+    return redirect(url_for('teachers.teachers'))
+
+@teachers_bp.route('/delete_teacher', methods=['POST'])
+def delete_teacher():
+    teacher_id = request.args.get('teacher_id')
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('DELETE FROM Teachers WHERE teacher_id = %s;', (teacher_id,))
+    conn.commit()
+    cur.close()
+    conn.close()
+    
     return redirect(url_for('teachers.teachers'))

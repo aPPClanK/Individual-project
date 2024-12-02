@@ -29,3 +29,21 @@ function deleteSchedule(scheduleId) {
             });
     }
 }
+function deleteTeacher(teacherId) {
+    if (confirm("Вы уверены, что хотите удалить учителя?")) {
+        fetch(`/teachers/delete_teacher?teacher_id=${teacherId}`, { method: 'POST' })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert("Ошибка при удалении учителя.");
+                }
+            });
+    }
+}
+function openAddTeacher() {
+    document.getElementById('addTeacherOverlay').style.display = 'block';
+}
+function closeAddTeacher() {
+    document.getElementById('addTeacherOverlay').style.display = 'none';
+}

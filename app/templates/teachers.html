@@ -47,9 +47,11 @@
                 <div class="ac">
                     <button class="actions" onclick="loadSchedule({{ teacher[0] }})">Показать расписание</button>
                     <button class="actions" onclick="openAddSchedule({{ teacher[0] }})">Добавить расписание</button>
+                    <button class="actions" onclick="deleteTeacher({{ teacher[0] }})">Удалить учителя</button>
                 </div>
             </div>
             {% endfor %}
+            <button class="actions" style="margin: 0 auto; display:flex;" onclick="openAddTeacher()">Добавить учителя</button>
         </div>
         <div class="right-panel schedule-container">
             {% for message in get_flashed_messages() %}
@@ -129,6 +131,32 @@
                 <input type="time" name="end_time" id="end_time" required>
                 <button type="submit">Добавить</button>
                 <button type="button" onclick="closeAddSchedule()">Отмена</button>
+            </form>
+        </div>
+    </div>
+    <div class="overlay" id="addTeacherOverlay" onclick="closeAddTeacher()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <h2>Добавить студента</h2>
+            <form action="/teachers/add_teacher" method="POST">
+                <label for="first_name">Имя:</label>
+                <input type="text" id="first_name" name="first_name" required>
+                <label for="last_name">Фамилия:</label>
+                <input type="text" id="last_name" name="last_name" required>
+                <label for="date_of_birth">Дата рождения:</label>
+                <input type="date" id="date_of_birth" name="date_of_birth" required>
+                <label for="gender">Пол:</label>
+                <select id="gender" name="gender" required>
+                    <option value="Male">Мужской</option>
+                    <option value="Female">Женский</option>
+                </select>
+                <label for="address">Адрес:</label>
+                <input type="text" id="address" name="address" required>
+                <label for="phone">Телефон:</label>
+                <input type="text" id="phone" name="phone" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <button type="submit">Добавить</button>
+                <button type="button" onclick="closeAddTeacher()">Закрыть</button>
             </form>
         </div>
     </div>
