@@ -55,8 +55,6 @@ tr:hover {
     position: fixed;
     display: inline-block;
 }
-
-/* Кнопка dropdown */
 .dropdown button {
     transition: 0.3s;
     border: 2px solid black;
@@ -68,8 +66,6 @@ tr:hover {
     font-size: 16px;
     cursor: pointer;
 }
-
-/* Список ссылок внутри dropdown */
 .dropdown-content {
     transition: max-height 0.3s ease;
     border: 2px solid black;
@@ -82,8 +78,6 @@ tr:hover {
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
-
-/* Стиль ссылок внутри dropdown */
 .dropdown-content a {
     transition: 0.3s;
     color: black;
@@ -91,19 +85,13 @@ tr:hover {
     text-decoration: none;
     display: block;
 }
-
-/* При наведении на ссылки изменяется их цвет фона */
 .dropdown-content a:hover {
     background-color: rgb(155,222,215);
 }
-
-/* Показываем список при наведении на dropdown */
 .dropdown:hover .dropdown-content {
     max-height: 200px;
     display: block;
 }
-
-/* Стилизуем кнопку при наведении */
 .dropdown:hover button {
     background-color: rgb(80, 160, 152);
 }

@@ -1,7 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, flash, render_template, request, redirect, url_for
 from utils import get_db_connection
 
-# Создаем Blueprint для преподавателей
 teachers_bp = Blueprint('teachers', __name__)
 
 @teachers_bp.route('/')
@@ -10,14 +9,12 @@ def teachers():
     conn = get_db_connection()
     cur = conn.cursor()
 
-    # Получение списка преподавателей
     cur.execute('''
         SELECT t.teacher_id, t.first_name, t.last_name, t.date_of_birth, t.gender, t.address, t.phone, t.email
         FROM Teachers t;
     ''')
     teachers = cur.fetchall()
 
-    # Получение предметов, которые преподают преподаватели
     cur.execute('''
         SELECT DISTINCT t.teacher_id, s.subject_name
         FROM Teachers t
@@ -26,7 +23,6 @@ def teachers():
     ''')
     subjects = cur.fetchall()
 
-    # Получение групп, которые ведут преподаватели
     cur.execute('''
         SELECT DISTINCT t.teacher_id, g.group_name
         FROM Teachers t
@@ -35,7 +31,6 @@ def teachers():
     ''')
     groups = cur.fetchall()
 
-    # Получение расписания занятий для выбранного преподавателя
     if teacher_id:
         cur.execute('''
             SELECT g.group_name, s.subject_name, sch.day_of_week, sch.start_time, sch.end_time, sch.schedule_id
@@ -49,11 +44,9 @@ def teachers():
     else:
         schedule = []
 
-    # Все доступные предметы
     cur.execute('SELECT subject_id, subject_name FROM Subjects;')
     all_subjects = cur.fetchall()
 
-    # Все доступные группы
     cur.execute('SELECT group_id, group_name FROM Groups;')
     all_groups = cur.fetchall()
     cur.close()
@@ -70,24 +63,30 @@ def teachers():
 
 @teachers_bp.route('/add_schedule', methods=['POST'])
 def add_schedule():
-    teacher_id = request.form['teacher_id']
-    subject_id = request.form['subject_id']
-    group_id = request.form['group_id']
-    day = request.form['day']
-    start_time = request.form['time']
-    end_time = request.form['end_time']
+    try:
+        teacher_id = request.form['teacher_id']
+        group_id = request.form['group_id']
+        subject_id = request.form['subject_id']
+        day_of_week = request.form['day_of_week']
+        start_time = request.form['start_time']
+        end_time = request.form['end_time']
+        conn = get_db_connection()
+        cur = conn.cursor()
 
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute('''
-        INSERT INTO Schedule (teacher_id, subject_id, group_id, day_of_week, start_time, end_time)
-        VALUES (%s, %s, %s, %s, %s, %s);
-    ''', (teacher_id, subject_id, group_id, day, start_time, end_time))
-    conn.commit()
-    cur.close()
-    conn.close()
+        cur.execute('''
+            INSERT INTO Schedule (teacher_id, group_id, subject_id, day_of_week, start_time, end_time)
+            VALUES (%s, %s, %s, %s, %s, %s);
+        ''', (teacher_id, group_id, subject_id, day_of_week, start_time, end_time))
 
-    return redirect(url_for('teachers.teachers'))
+        conn.commit()
+        cur.close()
+        conn.close()
+        flash('Расписание успешно добавлено!')
+        return redirect(url_for('teachers.teachers', teacher_id=teacher_id))
+
+    except Exception as e:
+        flash('Неправильно введены данные или уже существует пара для этого преподавателя в это время!')
+        return redirect(url_for('teachers.teachers', teacher_id=teacher_id))
 
 @teachers_bp.route('/delete_schedule', methods=['POST'])
 def delete_schedule():
@@ -102,4 +101,4 @@ def delete_schedule():
     cur.close()
     conn.close()
 
-    return redirect(url_for('groups.groups'))
+    return redirect(url_for('teachers.teachers'))

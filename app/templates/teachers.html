@@ -52,6 +52,12 @@
             {% endfor %}
         </div>
         <div class="right-panel schedule-container">
+            {% for message in get_flashed_messages() %}
+            <div class="alert">
+                <button class="close" onclick="this.parentElement.style.display='none';">&times;</button>
+                {{ message }}
+            </div>
+            {% endfor %}
             <h1>Расписание занятий</h1>
             <table>
                 <tr>
@@ -78,7 +84,7 @@
                         <td>
                             {% for item in schedule %}
                                 {% if item[2] == day and item[3].strftime('%H:%M') == start_time %}
-                                    <div class="schedule-item" style="background-color: lightblue;" data-schedule-id="{{ item[4] }}" onmouseenter="showDeleteButton(this)" onmouseleave="hideDeleteButton(this)">
+                                    <div class="schedule-item" style="background-color: lightblue;" data-schedule-id="{{ item[4] }}">
                                         {{ item[0] }}<br>
                                         {{ item[1] }}
                                         <button class="delete-button" onclick="deleteSchedule({{ item[5] }})"><i class="fa fa-trash" aria-hidden="true"></i></button>
@@ -108,8 +114,8 @@
                         <option value="{{ group[0] }}">{{ group[1] }}</option>
                     {% endfor %}
                 </select>
-                <label for="day">День недели:</label>
-                <select name="day" id="day">
+                <label for="day_of_week">День недели:</label>
+                <select name="day_of_week" id="day_of_week">
                     <option value="Monday">Понедельник</option>
                     <option value="Tuesday">Вторник</option>
                     <option value="Wednesday">Среда</option>
@@ -118,9 +124,9 @@
                     <option value="Saturday">Суббота</option>
                 </select>
                 <label for="time">Время начала:</label>
-                <input type="time" name="time" id="time">
+                <input type="time" name="start_time" id="start_time" required>
                 <label for="end_time">Время окончания:</label>
-                <input type="time" name="end_time" id="end_time">
+                <input type="time" name="end_time" id="end_time" required>
                 <button type="submit">Добавить</button>
                 <button type="button" onclick="closeAddSchedule()">Отмена</button>
             </form>

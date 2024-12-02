@@ -4,8 +4,6 @@ function openAttendance(studentId) {
         .then(response => response.json())
         .then(data => {
             let attendanceTable = document.getElementById('attendance-table');
-            
-            // Очищаем таблицу перед добавлением новых данных
             attendanceTable.innerHTML = `
                 <tr>
                     <th>Дата</th>
@@ -16,7 +14,6 @@ function openAttendance(studentId) {
             `;
 
             if (data.length === 0) {
-                // Если данных нет, показываем сообщение
                 let emptyRow = `
                     <tr>
                         <td colspan="4" style="text-align:center;">Нет данных о посещаемости</td>
@@ -24,7 +21,6 @@ function openAttendance(studentId) {
                 `;
                 attendanceTable.innerHTML += emptyRow;
             } else {
-                // Заполняем таблицу данными
                 data.forEach(item => {
                     let row = `
                         <tr>
@@ -40,7 +36,6 @@ function openAttendance(studentId) {
         })
         .catch(error => {
             console.error("Ошибка при получении данных о посещаемости:", error);
-            // Показываем сообщение об ошибке
             let attendanceTable = document.getElementById('attendance-table');
             attendanceTable.innerHTML = `
                 <tr>
@@ -49,28 +44,21 @@ function openAttendance(studentId) {
             `;
         });
 }
-
-// Функция для закрытия окна
 function closeAttendance() {
     document.getElementById('overlay').style.display = 'none';
 }
-// Функция для открытия окна добавления группы
 function openAddGroup() {
     document.getElementById('addGroupOverlay').style.display = 'block';
 }
-// Функция для закрытия окна добавления группы
 function closeAddGroup() {
     document.getElementById('addGroupOverlay').style.display = 'none';
 }
-// Функция для открытия окна добавления студента
 function openAddStudent() {
     document.getElementById('addStudentOverlay').style.display = 'block';
 }
-// Функция для закрытия окна добавления студента
 function closeAddStudent() {
     document.getElementById('addStudentOverlay').style.display = 'none';
 }
-// Функция для подтверждения удаления
 function confirmDelete(url) {
     if (confirm("Вы уверены, что хотите удалить это?")) {
         fetch(url, { method: 'POST' })
@@ -95,11 +83,9 @@ function openEditStudent(studentId, firstName, lastName, dateOfBirth, gender, ad
     document.getElementById('edit_email').value = email;
     document.getElementById('edit_student_group_id').value = studentGroupId;
 }
-
 function closeEditStudent() {
     document.getElementById('editStudentOverlay').style.display = 'none';
 }
-
 function openEditGroup(groupId, groupName) {
     document.getElementById('edit_group_id').value = groupId;
     document.getElementById('edit_group_name').value = groupName;

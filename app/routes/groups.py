@@ -10,7 +10,6 @@ def groups():
     conn = get_db_connection()
     cur = conn.cursor()
 
-    # Получение списка групп
     cur.execute('''
         SELECT g.group_id, g.group_name, c.course_name, COUNT(s.student_id) AS student_count
         FROM Groups g
@@ -21,7 +20,6 @@ def groups():
     ''')
     groups = cur.fetchall()
 
-    # Получение списка студентов для выбранной группы
     if group_id:
         cur.execute('''
             SELECT s.student_id, s.first_name, s.last_name, s.date_of_birth, s.gender, s.address, s.phone, s.email, g.group_name, g.group_id
@@ -42,7 +40,6 @@ def groups():
 
     students = cur.fetchall()
 
-    # Получение данных о посещаемости для конкретного студента
     if student_id:
         cur.execute('''
             SELECT a.date, s.subject_name, a.status
