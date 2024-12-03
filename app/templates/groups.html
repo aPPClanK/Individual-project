@@ -7,16 +7,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='groups.css') }}">
     <script src="{{ url_for('static', filename='groups.js') }}"></script>
+    <script src="{{ url_for('static', filename='sidenav.js') }}"></script>
 </head>
 <body>
-    <div class="dropdown">
-        <button><i class="fa fa-list-ul" aria-hidden="true"></i></button>
-        <div class="dropdown-content">
-            <a href="/">На главную</a>
-            <a href="/schedule">Расписание</a>
-            <a href="/teachers">Преподаватели</a>
-        </div>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="/">На главную</a>
+        <a href="/schedule">Расписание</a>
+        <a class="active"><span>Группы</span></a>
+        <a href="/teachers">Преподаватели</a>
     </div>
+    <span class="menu" onclick="openNav()">☰</span>
     <div class="box">
         <h1>Список групп</h1>
         <table>
@@ -32,9 +33,11 @@
                 <td>{{ group[2] }}</td>
                 <td>{{ group[3] }}</td>
                 <td class="show">
+                    <div class="actionsdiv">
                     <button class="actions" onclick="window.location.href='/groups?group_id={{ group[0] }}'" style="display: block;">Показать студентов</button>
-                    <button class="actions" onclick="openEditGroup({{ group[0] }}, '{{ group[1] }}')">Изменить</button>
+                    <button class="actions" onclick="openEditGroup({{ group[0] }}, '{{ group[1] }}', {{ group[4]}} )">Изменить</button>
                     <button class="actions" onclick="confirmDelete('{{ url_for('groups.delete_group', group_id=group[0]) }}')">Удалить группу</button>
+                    </div>
                 </td>
             </tr>
             {% endfor %}
@@ -189,6 +192,14 @@
                 <input type="hidden" id="edit_group_id" name="group_id">
                 <label for="edit_group_name">Новое название группы:</label>
                 <input type="text" id="edit_group_name" name="group_name" required>
+                <label for="edit_group_course">Новый курс группы: </label>
+                <select id="edit_group_course" name="course_id" required>
+                    {% for course in courses %}
+                        <option value="{{ course[0] }}" {% if course[0] == course_id %}selected{% endif %}>
+                            {{ course[1] }}
+                        </option>
+                    {% endfor %}
+                </select>
                 <button type="submit">Сохранить</button>
             </form>
         </div>

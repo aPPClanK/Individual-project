@@ -9,13 +9,16 @@ def groups():
     student_id = request.args.get('student_id')
     conn = get_db_connection()
     cur = conn.cursor()
-
+    
+    cur.execute('SELECT course_id, course_name from Courses;')
+    courses = cur.fetchall()
+    
     cur.execute('''
-        SELECT g.group_id, g.group_name, c.course_name, COUNT(s.student_id) AS student_count
+        SELECT g.group_id, g.group_name, c.course_name, COUNT(s.student_id) AS student_count, c.course_id
         FROM Groups g
         LEFT JOIN Students s ON g.group_id = s.group_id
         INNER JOIN Courses c ON g.course_id = c.course_id
-        GROUP BY g.group_id, g.group_name, c.course_name
+        GROUP BY g.group_id, g.group_name, c.course_name, c.course_id
         ORDER BY g.group_name;
     ''')
     groups = cur.fetchall()
@@ -56,6 +59,7 @@ def groups():
 
     return render_template(
         'groups.html',
+        courses=courses,
         groups=groups,
         students=students,
         show_all_students=show_all_students,
@@ -145,13 +149,14 @@ def edit_student():
 def edit_group():
     group_id = request.form.get('group_id')
     group_name = request.form.get('group_name')
+    course_id = request.form.get('course_id')
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute('''
         UPDATE Groups
-        SET group_name = %s
+        SET group_name = %s, course_id = %s
         WHERE group_id = %s;
-    ''', (group_name, group_id))
+    ''', (group_name, course_id, group_id))
     conn.commit()
     cur.close()
     conn.close()

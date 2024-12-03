@@ -45,7 +45,7 @@ table {
     height: 0;
 }
 th, td {
-    border: 1px solid black;
+    border: 1px solid rgb(64, 129, 123);
     padding: 1px;
     text-align: center;
 }
@@ -62,12 +62,12 @@ tr:hover {
     background-color: rgb(155,222,215);
 }
 .day {
-    background-color: #e2e2e2;
+    background-color: rgb(182, 229, 225);
     width: 14%;
     height: 6%;
 }
 .time {
-    background-color: #d2d2d2;
+    background-color: rgb(154, 202, 198);
     width: 8.5%;
     height: 6%;
 }
@@ -116,49 +116,49 @@ h1 {
     font-weight: bold;
     border-width: 3px;
 }
-.dropdown {
+.sidenav {
+    height: 100%;
+    width: 0;
     position: fixed;
-    display: inline-block;
-}
-.dropdown button {
-    transition: 0.3s;
-    border: 2px solid black;
-    border-bottom: none;
-    width: 151px;
-    background-color: rgb(121, 185, 179);
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-.dropdown-content {
-    transition: max-height 0.3s ease;
-    border: 2px solid black;
-    border-top: transparent;
-    max-height: 0px;
-    overflow: hidden;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 147px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(15, 29, 27);
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: 0.5s;
 }
-.dropdown-content a {
-    transition: 0.3s;
-    color: black;
-    padding: 12px 16px;
+.sidenav a {
+    padding: 8px 8px 8px 32px;
     text-decoration: none;
+    text-wrap: nowrap;
+    font-size: 20px;
+    color: #818181;
     display: block;
+    transition: 0.3s;
 }
-.dropdown-content a:hover {
-    background-color: rgb(155,222,215);
+.sidenav a:hover {
+    color: #f1f1f1;
 }
-.dropdown:hover .dropdown-content {
-    max-height: 200px;
-    display: block;
+.sidenav a:hover:not(:first-of-type) {
+    color: rgb(64, 129, 123);
+    background: #fff;
+    outline: none;
+    position: relative;
+    background-color: #fff;
 }
-.dropdown:hover button {
-    background-color: rgb(80, 160, 152);
+.active:hover span {
+    display: none;
+}
+.active:hover::before {
+    content: "Вы тут";
+}
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
 }
 .overlay {
     display: none;
@@ -206,4 +206,12 @@ h1 {
 }
 .close:hover {
     color: #000;
+}
+.menu {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    cursor: pointer;
+    font-size: 40px;
+    color: rgb(15, 29, 27);
 }

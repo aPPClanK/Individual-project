@@ -7,16 +7,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='teachers.css') }}">
     <script src="{{ url_for('static', filename='teachers.js') }}"></script>
+    <script src="{{ url_for('static', filename='sidenav.js') }}"></script>
 </head>
 <body>
-    <div class="dropdown">
-        <button><i class="fa fa-list-ul" aria-hidden="true"></i></button>
-        <div class="dropdown-content">
-            <a href="/">На главную</a>
-            <a href="/schedule">Расписание</a>
-            <a href="/groups">Группы</a>
-        </div>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="/">На главную</a>
+        <a href="/schedule">Расписание</a>
+        <a href="/groups">Группы</a>
+        <a class="active"><span>Преподаватели</span></a>
     </div>
+    <span class="menu" onclick="openNav()">☰</span>
     <div class="container">
         <div class="left-panel">
             <h1 style="text-align:center">Список преподавателей</h1>

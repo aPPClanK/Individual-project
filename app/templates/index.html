@@ -5,8 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Меню</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
+    <script src="{{ url_for('static', filename='sidenav.js') }}"></script>
 </head>
 <body>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a class="active"><span>На главную</span></a>
+        <a href="/schedule">Расписание</a>
+        <a href="/groups">Группы</a>
+        <a href="/teachers">Преподаватели</a>
+    </div>
+    <span class="menu" onclick="openNav()">☰</span>
     <div class="container">
         <div class="left-panel">
             <h1>База данных деканата</h1>

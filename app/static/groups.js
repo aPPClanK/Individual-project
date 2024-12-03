@@ -86,10 +86,12 @@ function openEditStudent(studentId, firstName, lastName, dateOfBirth, gender, ad
 function closeEditStudent() {
     document.getElementById('editStudentOverlay').style.display = 'none';
 }
-function openEditGroup(groupId, groupName) {
+function openEditGroup(groupId, groupName, groupCourse) {
     document.getElementById('edit_group_id').value = groupId;
     document.getElementById('edit_group_name').value = groupName;
+    document.getElementById('edit_group_course').value = groupCourse;
     document.getElementById('editGroupOverlay').style.display = 'block';
+    console.log(document.getElementById('edit_group_course').value);
 }
 function closeEditGroup() {
     document.getElementById('editGroupOverlay').style.display = 'none';
