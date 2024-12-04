@@ -99,6 +99,9 @@ h1 {
     padding-top: 0;
     text-align: center;
 }
+h2 {
+    text-align: center;
+}
 .ac {
     display: flex;
     flex-wrap: wrap;
@@ -106,6 +109,7 @@ h1 {
 .actions {
     margin: 5px auto;
     height: 25px;
+    width: 165px;
     cursor: pointer;
     background-color: rgb(155,222,215);
     border-radius: 5px;
@@ -115,6 +119,9 @@ h1 {
     transform: scale(1.05);
     font-weight: bold;
     border-width: 3px;
+}
+.actionsdiv {
+    display: flex;
 }
 .sidenav {
     height: 100%;
@@ -176,12 +183,12 @@ h1 {
     position: absolute;
     top: 50%;
     left: 50%;
-    min-width: 71vw;
+    min-width: 20vw;
     transform: translate(-50%, -50%);
     background-color: #fff;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 .alert {
     position: relative;
@@ -214,4 +221,52 @@ h1 {
     cursor: pointer;
     font-size: 40px;
     color: rgb(15, 29, 27);
+}
+.form {
+    display: grid;
+    box-sizing: content-box;
+    grid-template-columns: 200px 200px;
+}
+label {
+    margin: auto 0;
+}
+input {
+    margin: 10px 0;
+    padding: 10px;
+    border: 3px solid rgb(64, 129, 123);
+    border-radius: 10px;
+    transition: 0.2s;
+}
+input:focus {
+    background-color: rgb(182, 229, 225);
+    border: 3px solid rgb(24, 49, 47);
+}
+select {
+    margin: 10px 0;
+    padding: 10px;
+    border: 3px solid rgb(64, 129, 123);
+    border-radius: 10px;
+    transition: 0.2s;
+}
+select:focus {
+    background-color: rgb(182, 229, 225);
+    border: 3px solid rgb(24, 49, 47);
+}
+button[type="submit"], button[type="button"] {
+    background-color: rgb(155,222,215);
+    transition: 0.2s;
+    width: 150px;
+    margin: 0px auto;
+    border-width: 3px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+    margin-top: 30px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+button[type="submit"]:hover, button[type="button"]:hover {
+    background-color: rgb(105, 202, 175);
 }

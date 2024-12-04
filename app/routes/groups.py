@@ -173,7 +173,7 @@ def get_attendance():
         INNER JOIN Subjects s ON a.subject_id = s.subject_id
         LEFT JOIN Grades g ON a.student_id = g.student_id AND a.subject_id = g.subject_id AND a.date = g.date
         WHERE a.student_id = %s;
-    ''', (student_id))
+    ''', (student_id,))
     attendance = cur.fetchall()
     cur.close()
     conn.close()

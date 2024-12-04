@@ -47,3 +47,18 @@ function openAddTeacher() {
 function closeAddTeacher() {
     document.getElementById('addTeacherOverlay').style.display = 'none';
 }
+function openEditTeacher(teacherId, firstName, lastName, dateOfBirth, gender, address, phone, email) {
+    console.log(document.getElementById('edit_teacher_id').value);
+    document.getElementById('editTeacherOverlay').style.display = 'block';
+    document.getElementById('edit_teacher_id').value = teacherId;
+    document.getElementById('edit_first_name').value = firstName;
+    document.getElementById('edit_last_name').value = lastName;
+    document.getElementById('edit_date_of_birth').value = dateOfBirth;
+    document.getElementById('edit_gender').value = gender;
+    document.getElementById('edit_address').value = address;
+    document.getElementById('edit_phone').value = phone;
+    document.getElementById('edit_email').value = email;
+}
+function closeEditTeacher() {
+    document.getElementById('editTeacherOverlay').style.display = 'none';
+}

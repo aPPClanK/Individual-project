@@ -11,7 +11,7 @@ def teachers():
 
     cur.execute('''
         SELECT t.teacher_id, t.first_name, t.last_name, t.date_of_birth, t.gender, t.address, t.phone, t.email
-        FROM Teachers t;
+        FROM Teachers t ORDER BY first_name;
     ''')
     teachers = cur.fetchall()
 
@@ -130,4 +130,25 @@ def delete_teacher():
     cur.close()
     conn.close()
     
+    return redirect(url_for('teachers.teachers'))
+@teachers_bp.route('/edit_teacher', methods=['POST'])
+def edit_teacher():
+    teacher_id = request.form['teacher_id']
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    date_of_birth = request.form['date_of_birth']
+    gender = request.form['gender']
+    address = request.form['address']
+    phone = request.form['phone']
+    email = request.form['email']
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('''
+        UPDATE Teachers
+        SET first_name = %s, last_name = %s, date_of_birth = %s, gender = %s, address = %s, phone = %s, email = %s
+        WHERE teacher_id = %s;
+    ''', (first_name, last_name, date_of_birth, gender, address, phone, email, teacher_id,))
+    conn.commit()
+    cur.close()
+    conn.close()
     return redirect(url_for('teachers.teachers'))

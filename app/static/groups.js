@@ -1,5 +1,5 @@
 function openAttendance(studentId) {
-    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('overlayAttendance').style.display = 'block';
     fetch(`/groups/get_attendance?student_id=${studentId}`)
         .then(response => response.json())
         .then(data => {
@@ -45,7 +45,7 @@ function openAttendance(studentId) {
         });
 }
 function closeAttendance() {
-    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('overlayAttendance').style.display = 'none';
 }
 function openAddGroup() {
     document.getElementById('addGroupOverlay').style.display = 'block';

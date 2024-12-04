@@ -50,7 +50,7 @@
         <h1>
             Список студентов
             {% if not show_all_students %}
-                <button class="actions" onclick="window.location.href='/groups'">Показать всех студентов</button>
+                <button class="actions" style="width: 200px;" onclick="window.location.href='/groups'">Показать всех студентов</button>
             {% endif %}
         </h1>
         <table class="students">
@@ -94,8 +94,8 @@
             <button class="actions" onclick="openAddStudent()">Добавить студента</button>
         {% endif %}
     </div>
-    <div class="overlay" id="overlay" onclick="closeAttendance()">
-        <div class="modal" onclick="event.stopPropagation()">
+    <div class="overlayAttendance" id="overlayAttendance" onclick="closeAttendance()">
+        <div class="modalAttendance" onclick="event.stopPropagation()">
             <h2 style="text-align: center;">Посещаемость</h2>
             <table id="attendance-table">
                 <tr>
@@ -112,22 +112,26 @@
         <div class="modal" onclick="event.stopPropagation()">
             <h2>Добавить группу</h2>
             <form action="{{ url_for('groups.add_group') }}" method="POST">
+            <div class="form">
                 <label for="group_name">Название группы:</label>
                 <input type="text" id="group_name" name="group_name" required>
                 <label for="course_id">Курс:</label>
                 <select id="course_id" name="course_id" required>
-                    <option value="1">Курс 1</option>
-                    <option value="2">Курс 2</option>
+                {% for course in courses %}
+                    <option value="{{ course[0] }}">{{ course[1] }}</option>
+                {% endfor %}
                 </select>
                 <button type="submit">Добавить</button>
                 <button type="button" onclick="closeAddGroup()">Закрыть</button>
             </form>
+            </div>
         </div>
     </div>
     <div class="overlay" id="addStudentOverlay" onclick="closeAddStudent()">
         <div class="modal" onclick="event.stopPropagation()">
             <h2>Добавить студента</h2>
             <form action="{{ url_for('groups.add_student') }}" method="POST">
+            <div class="form">
                 <input type="hidden" name="group_id" value="{{ selected_group_id }}">
                 <label for="first_name">Имя:</label>
                 <input type="text" id="first_name" name="first_name" required>
@@ -148,6 +152,7 @@
                 <input type="email" id="email" name="email" required>
                 <button type="submit">Добавить</button>
                 <button type="button" onclick="closeAddStudent()">Закрыть</button>
+            </div>
             </form>
         </div>
     </div>
@@ -155,6 +160,7 @@
         <div class="modal" onclick="event.stopPropagation()">
             <h2>Изменить данные студента</h2>
             <form action="{{ url_for('groups.edit_student') }}" method="POST">
+            <div class="form">
                 <input type="hidden" id="edit_student_id" name="student_id">
                 <label for="edit_first_name">Имя:</label>
                 <input type="text" id="edit_first_name" name="first_name" required>
@@ -183,12 +189,15 @@
                 </select>
                 <button type="submit">Сохранить</button>
                 <button type="button" onclick="closeEditStudent()">Закрыть</button>
+            </div>
             </form>
         </div>
     </div>
     <div class="overlay" id="editGroupOverlay" onclick="closeEditGroup()">
         <div class="modal" onclick="event.stopPropagation()">
+            <h2>Изменить данные группы</h2>
             <form action="/edit_group" method="POST">
+            <div class="form">
                 <input type="hidden" id="edit_group_id" name="group_id">
                 <label for="edit_group_name">Новое название группы:</label>
                 <input type="text" id="edit_group_name" name="group_name" required>
@@ -201,6 +210,8 @@
                     {% endfor %}
                 </select>
                 <button type="submit">Сохранить</button>
+                <button type="button" onclick="closeEditGroup()">Закрыть</button>
+            </div>
             </form>
         </div>
     </div>
