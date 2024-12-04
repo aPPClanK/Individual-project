@@ -179,7 +179,7 @@ h1 {
     margin-top: 10px;
 }
 .menu {
-    position: absolute;
+    position: fixed;
     top: 10px;
     left: 20px;
     cursor: pointer;

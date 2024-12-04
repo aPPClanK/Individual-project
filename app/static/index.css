@@ -184,7 +184,7 @@ body {
     margin-left: 50px;
 }
 .menu {
-    position: absolute;
+    position: fixed;
     top: 10px;
     left: 20px;
     cursor: pointer;
