@@ -196,7 +196,7 @@
     <div class="overlay" id="editGroupOverlay" onclick="closeEditGroup()">
         <div class="modal" onclick="event.stopPropagation()">
             <h2>Изменить данные группы</h2>
-            <form action="/edit_group" method="POST">
+            <form action="{{ url_for('groups.edit_group') }}" method="POST">
             <div class="form">
                 <input type="hidden" id="edit_group_id" name="group_id">
                 <label for="edit_group_name">Новое название группы:</label>
