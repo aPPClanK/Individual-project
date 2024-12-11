@@ -113,8 +113,16 @@ h1 {
 .sidenav a:hover:not(:first-of-type) {
     color: rgb(64, 129, 123);
     background: #fff;
-    outline: none;
-    position: relative;
+    background-color: #fff;
+}
+.sidenav .logout {
+    position: absolute;
+    bottom: 100px;
+    width: 200px;
+}
+.sidenav .logout:hover:not(:first-of-type) {
+    color: rgb(64, 129, 123);
+    background: #fff;
     background-color: #fff;
 }
 .active:hover span {
